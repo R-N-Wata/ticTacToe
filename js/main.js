@@ -1,30 +1,22 @@
 
-let playerObject = []
+//have an arr of cells used up.
 
-document.querySelectorAll('button').forEach(btn => playerObject.push(btn.value))
-
-console.log(playerObject)
-
-   let max = 8;
-
- let arr = [...document.querySelectorAll('button')]
+//computer choice is random
 
 
+let cells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8']
+
+let buttons =  [...document.querySelectorAll('button')]
 
 const keys = document.querySelectorAll('button').forEach((btn, i)=> {
     btn.addEventListener('click', function (){
 
      
-        if(btn.innerText !== 'O' && btn.innerText !== 'X'){
-           ticTacToe.showPlayerChoice(i)
-            ticTacToe.computerChoice()
-            console.log(playerObject) 
-        }
-            
+        
            
 
-        console.log(playerObject)
-        ticTacToe.winner()
+        
+        ticTacToe.winner(btn, i)
     })
 })
 
@@ -38,54 +30,55 @@ const ticTacToe = {
 
     computer: 'O',
 
-    winner(){
+    winner(btn, i){
 
-        playerObject.forEach(btn => {
-            if(btn.click === true){
-                this.showPlayerChoice()
-                this.showComputer()
-                console.log('hi')
-            }
-        })
-
-    },
-
-    computerChoice(){
 
         
-        let random = Math.round(Math.random() * ((playerObject.length-1) - 0) - 0)
+     
+        ticTacToe.computerChoice(btn)
+        ticTacToe.showPlayerChoice(btn)
 
-        this.showComputer(random);
+        buttons = buttons.filter(b => cells.includes(b.value) )
+        buttons.forEach(b => console.log(b.value))
 
-        playerObject.splice(random, 1)
-        console.log(playerObject.length -1)
     },
 
-    showPlayerChoice(btn){
-      
-        btn.innerText = this.player
-          
-    },
+    computerChoice(btn){
 
-    showComputer(zero){
-
-        // if (playerObject[zero].innerText === ''){
+        let len = cells.length -2
+        let random = Math.round(Math.random() * len)
+console.log(random )
+        while(cells[random] === btn.value){
+            
+            random = Math.round(Math.random() * len)
+            
+        }
+             this.showComputer(random)
+             cells.splice(random,1)
          
-        // }
-
+        
        
+         
+        
+    },
+    showPlayerChoice(btn){
+     
+        btn.innerText = this.player
 
-        arr.forEach(btn => {
-            if (btn.value === playerObject[zero] && btn.innerText === ''){
-                btn.innerText = this.computer 
+        cells.splice(cells.indexOf(btn.value), 1)
+
+    },
+
+    showComputer(cell){
+
+        buttons.forEach((b, i) => {
+            if( i === cell){
+                b.innerText = this.computer
+                
             }
-        })
-           
         
-        
+        })       
+
     }
-
-
-
 
 }
