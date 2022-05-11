@@ -62,10 +62,11 @@ const ticTacToe = {
             for(let i = 0; i < buttons.length; i++){
 
                
-                if(buttons[i].value == el){
+                if(buttons[i].value == el && buttons[i].innerText===this.player){
                   answer = true
                 }else{
                     answer = false
+                    console.log(buttons[i].value)
                 }
             }
             console.log(answer)
