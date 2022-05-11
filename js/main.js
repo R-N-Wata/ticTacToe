@@ -56,6 +56,26 @@ const ticTacToe = {
 
     winner(btn){
 
+        //finds the winner if possible wins are met
+        let player1Wins = possibleWins.some(out => out.every(el =>{  
+            let answer = false
+            for(let i = 0; i < buttons.length; i++){
+
+               
+                if(buttons[i].value == el && buttons[i].innerText===this.player){
+                  answer = true
+                }else{
+                    answer = false
+                    console.log(buttons[i].value)
+                }
+            }
+            console.log(answer)
+            return answer
+        
+        }
+            )
+       
+        )
         ticTacToe.computerChoice(btn)
         ticTacToe.showPlayerChoice(btn)
 
