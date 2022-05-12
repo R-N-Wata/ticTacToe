@@ -41,11 +41,54 @@ let possibleWins = [
     ['c2', 'c4', 'c6'],
 ]
 
-const keys = document.querySelectorAll('button').forEach((btn, i)=> {
+let counter = 0;
+
+document.querySelector('.home').addEventListener('click', function(){
+    document.querySelector('.choose-player').classList.remove('hidden')
+    document.querySelector('.main-wrapper').classList.add('hidden')
+})
+
+
+document.querySelector('.one-player').addEventListener('click', function(){
+    document.querySelector('.main-wrapper').classList.remove('hidden')
+
+    document.querySelector('.choose-player').classList.add('hidden')
+    const keys = document.querySelectorAll('button').forEach((btn, i)=> {
     btn.addEventListener('click', function (){
+        if (btn.innerText == ''){
+          ticTacToe.winner1PlayerGame(btn)  
+        }
         
-        ticTacToe.winner(btn)
     })
+})
+})
+
+
+
+document.querySelector('.two-player').addEventListener('click', function(){
+    document.querySelector('.main-wrapper').classList.remove('hidden')
+
+    document.querySelector('.choose-player').classList.add('hidden')
+
+    
+    document.querySelector('.choose-player').classList.add('hidden')
+    const keys = document.querySelectorAll('button').forEach((btn, i)=> {
+    btn.addEventListener('click', function (){
+
+        if(btn.innerText == ''){
+              (counter % 2 ===0)? btn.innerText = 'X' : btn.innerText = 'O' 
+        ticTacToe.winner2PlayerGame(btn)
+        counter++
+        }
+       
+    })
+})
+})
+
+
+
+document.querySelector('.restart-btn').addEventListener('click', function (){
+    ticTacToe.restart()
 })
 
 
@@ -54,22 +97,28 @@ const ticTacToe = {
 
     computer: 'O',
 
-    winner(btn){
+    winner1PlayerGame(btn){
+
         ticTacToe.computerChoice(btn)
-        ticTacToe.showPlayerChoice(btn) 
-        
+        ticTacToe.showPlayerChoice(btn)
+
         // removes the cell already taken
         buttons = buttons.filter(b => cells.includes(b.value) )
-        //finds the winner if possible wins are met
-        let player1Wins = possibleWins.some(outer => {
-            
-            const playerButtons = Array.from(document.querySelectorAll('button')).filter(e => e.innerText === this.player0)
 
-            return out.every(e => playerButtons.find(b => b.value ===e))
-            } )
-       
-        
-        
+        //finds the winner if possible wins are met
+        let player1Wins = possibleWins.some(out => {
+            const playerButtons  = [...document.querySelectorAll('button')]
+                .filter(e => e.innerText === this.player)
+            return out.every(e => playerButtons.find(b => b.value === e))
+        })
+
+        let computerWins = possibleWins.some(out => {
+            const computerButtons =  [...document.querySelectorAll('button')]
+            .filter(e => e.innerText === this.computer)
+
+            console.log(computerButtons)
+            return out.every(e => computerButtons.find(b => b.value === e))
+        })
         if(player1Wins){
 
             h2.innerText = `You've won!`
@@ -77,13 +126,15 @@ const ticTacToe = {
             winner.classList.remove('hidden')
             console.log('hi')
 
+        }else if(cells.length ===1){
+            h2.innerText = `It's a tie`
+            winner.classList.remove('hidden')
+        }    
+       else if(computerWins){
+            h2.innerText = `Oops... You've lost!`
+            winner.classList.remove('hidden')
         }
         
-        
-      
-       
-        
-
     },
 
     computerChoice(btn){
@@ -122,6 +173,54 @@ const ticTacToe = {
         
         })       
 
+    },
+
+    restart(){
+
+        winner.classList.add('hidden');
+
+        buttons = [...document.querySelectorAll('button')]
+        cells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8']
+        const newBtns =[...document.querySelectorAll('button')].map(el => el.innerText = '')
+    }, 
+    
+    winner2PlayerGame(btn){
+
+
+        //finds the winner if possible wins are met
+        let player1Wins = possibleWins.some(out => {
+            const playerButtons  = [...document.querySelectorAll('button')]
+                .filter(e => e.innerText === this.player)
+            return out.every(e => playerButtons.find(b => b.value === e))
+        })
+
+        let player2Wins = possibleWins.some(out => {
+            const computerButtons =  [...document.querySelectorAll('button')]
+            .filter(e => e.innerText === this.computer)
+
+            
+            return out.every(e => computerButtons.find(b => b.value === e))
+        })
+        let remainBtn = [...document.querySelectorAll('button')].filter(b => b.innerText == '')
+        if(player1Wins){
+
+            h2.innerText = `X's have won!`
+
+            winner.classList.remove('hidden')
+            console.log('hi')
+
+        }
+        else if(remainBtn.length ===1){
+            h2.innerText = `It's a tie`
+            winner.classList.remove('hidden')
+        }    
+       else if(player2Wins){
+            h2.innerText = `O's has won!`
+            winner.classList.remove('hidden')
+        }
+        console.log(remainBtn)
     }
 
 }
+
+
