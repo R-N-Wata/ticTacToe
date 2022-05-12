@@ -44,8 +44,8 @@ let possibleWins = [
 let counter = 0;
 
 document.querySelector('.home').addEventListener('click', function(){
-    document.querySelector('.choose-player').classList.remove('hidden')
-    document.querySelector('.main-wrapper').classList.add('hidden')
+ location.reload()
+
 })
 
 
@@ -69,9 +69,9 @@ document.querySelector('.two-player').addEventListener('click', function(){
     document.querySelector('.main-wrapper').classList.remove('hidden')
 
     document.querySelector('.choose-player').classList.add('hidden')
-
     
-    document.querySelector('.choose-player').classList.add('hidden')
+
+
     const keys = document.querySelectorAll('button').forEach((btn, i)=> {
     btn.addEventListener('click', function (){
 
